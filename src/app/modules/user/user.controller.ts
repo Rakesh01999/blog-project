@@ -7,11 +7,13 @@ import { UserServices } from './user.service'; // Assuming the service file is n
 // Create a new user
 const createUser = async (req: Request, res: Response) => {
     try {
-        const userData = req.body; // Extract user data from request body
+        // const userData = req.body.user; // Extract user data from request body
+        const { user: userData } = req.body;
+
         const result = await UserServices.createUserInDB(userData); // Call the service method to create the user
 
-        return res.status(201).json({
-            // return res.status(200).json({
+        // return res.status(201).json({
+        return res.status(200).json({
             success: true,
             message: 'User created successfully',
             data: result,

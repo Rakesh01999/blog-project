@@ -1,6 +1,4 @@
 
-
-
 import { Request, Response } from 'express';
 import { UserServices } from './user.service'; // Assuming the service file is named user.service.ts
 

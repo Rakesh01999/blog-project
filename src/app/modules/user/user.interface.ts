@@ -22,7 +22,7 @@ import { Schema, model, connect } from 'mongoose';
 // }
 
 
-export interface TUser {
+export interface User {
     id: string;
     name: string;
     email:string;
@@ -36,3 +36,4 @@ export interface TUser {
     // createdAt: Date; 
     // updatedAt: Date;   
 }
+

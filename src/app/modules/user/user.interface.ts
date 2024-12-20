@@ -1,28 +1,11 @@
 
 
 import { Schema, model, connect } from 'mongoose';
+import { USER_ROLE } from './user.constant';
 
 
-// export type Student = {
-//   id: string;
-//   name: UserName,
-//   gender: "male"|"female";
-//   dateOfBirth?: string;
-//   email: string;
-//   avatar?: string;
-//   contactNo: string;
-//   emergencyContactNo: string;
-//   bloodGroup: "A+" | "A-" | "B+" | "B-" | "AB+" | "AB-" | "O+" | "O-";
-//   presentAddress: string;
-//   permanentAddress: string;
-//   guardian: Guardian;
-//   localGuardian: LocalGuardian;
-//   profileImg?: string;
-//   isActive: 'active' | 'blocked';
-// }
-
-
-export interface User {
+// export interface User {
+export interface TUser {
     id: string;
     name: string;
     email:string;
@@ -37,3 +20,4 @@ export interface User {
     // updatedAt: Date;   
 }
 
+export type TUserRole = keyof typeof USER_ROLE;

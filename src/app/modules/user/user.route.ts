@@ -13,6 +13,8 @@ router.get('/', UserControllers.getAllUsers);
 
 router.get('/:userId', UserControllers.getSingleUser);
 
+router.patch('/:id', UserControllers.updateUser);
+
 export const UserRoutes = router;
 
 

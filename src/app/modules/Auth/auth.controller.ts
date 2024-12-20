@@ -1,61 +1,29 @@
-
-
-
-
+import { Request, Response } from 'express';
 import httpStatus from 'http-status';
-import config from '../../config';
-import catchAsync from '../../utils/catchAsync';
-import sendResponse from '../../utils/sendResponse';
 import { AuthServices } from './auth.service';
+import catchAsync from '../../utils/catchAsync';
 
-const loginUser = catchAsync(async (req, res) => {
-  const result = await AuthServices.loginUser(req.body);
-  const { refreshToken, accessToken, needsPasswordChange } = result;
+const loginUser = catchAsync(async (req: Request, res: Response) => {
+  const { email, password } = req.body;
 
-  res.cookie('refreshToken', refreshToken, {
-    secure: config.NODE_ENV === 'production',
-    httpOnly: true,
+  // Authenticate user and get tokens
+  const { accessToken, refreshToken, needsPasswordChange } = await AuthServices.loginUser({
+    email,
+    password,
   });
 
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
+  res.status(httpStatus.OK).json({
     success: true,
-    message: 'User is logged in succesfully!',
+    message: 'Login successful',
+    statusCode: 200,
     data: {
-      accessToken,
-      needsPasswordChange,
+      token: accessToken,
+      refreshToken, // Optional: Return if you use refresh tokens
+      needsPasswordChange, // Optional: Indicate if the user needs to change their password
     },
   });
 });
 
-const changePassword = catchAsync(async (req, res) => {
-  const { ...passwordData } = req.body;
-
-  const result = await AuthServices.changePassword(req.user, passwordData);
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'Password is updated succesfully!',
-    data: result,
-  });
-});
-
-const refreshToken = catchAsync(async (req, res) => {
-  const { refreshToken } = req.cookies;
-  const result = await AuthServices.refreshToken(refreshToken);
-
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'Access token is retrieved succesfully!',
-    data: result,
-  });
-});
-
-export const AuthControllers = {
+export const AuthController = {
   loginUser,
-  changePassword,
-  refreshToken,
 };
-
-

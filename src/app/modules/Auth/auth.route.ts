@@ -5,16 +5,16 @@
 import express from 'express';
 import validateRequest from '../../middlewares/validateRequest';
 import { USER_ROLE } from './../user/user.constant';
-import { AuthControllers } from './auth.controller';
 import { AuthValidation } from './auth.validation';
 import auth from '../../middlewares/auth';
+import { AuthController } from './auth.controller';
 
 const router = express.Router();
 
 router.post(
   '/login',
   validateRequest(AuthValidation.loginValidationSchema),
-  AuthControllers.loginUser,
+  AuthController.loginUser,
 );
 
 // router.post(
@@ -24,18 +24,18 @@ router.post(
 //   AuthControllers.changePassword,
 // );
 
-router.post(
-  '/change-password',
-  auth(USER_ROLE.admin, USER_ROLE.admin, USER_ROLE.user),
-  validateRequest(AuthValidation.changePasswordValidationSchema),
-  AuthControllers.changePassword,
-);
+// router.post(
+//   '/change-password',
+//   auth(USER_ROLE.admin, USER_ROLE.admin, USER_ROLE.user),
+//   validateRequest(AuthValidation.changePasswordValidationSchema),
+//   AuthController.changePassword,
+// );
 
-router.post(
-  '/refresh-token',
-  validateRequest(AuthValidation.refreshTokenValidationSchema),
-  AuthControllers.refreshToken,
-);
+// router.post(
+//   '/refresh-token',
+//   validateRequest(AuthValidation.refreshTokenValidationSchema),
+//   AuthControllerrefreshToken,
+// );
 
 export const AuthRoutes = router;
 

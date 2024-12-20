@@ -73,16 +73,17 @@ const getSingleBlog = async (blogId: string) => {
  * @param updateData - Data to update the blog with.
  * @returns - Updated blog document.
  */
-const updateBlog = async (blogId: string, userId: string, updateData: Partial<IBlog>) => {
+// const updateBlog = async (blogId: string, userId: string, updateData: Partial<IBlog>) => {
+const updateBlog = async (blogId: string, updateData: Partial<IBlog>) => {
     const blog = await BlogModel.findById(blogId);
 
     if (!blog) {
         throw new AppError(httpStatus.NOT_FOUND, 'Blog not found');
     }
 
-    if (blog.author.toString() !== userId) {
-        throw new AppError(httpStatus.FORBIDDEN, 'You are not authorized to update this blog');
-    }
+    // if (blog.author.toString() !== userId) {
+    //     throw new AppError(httpStatus.FORBIDDEN, 'You are not authorized to update this blog');
+    // }
 
     const updatedBlog = await BlogModel.findByIdAndUpdate(blogId, updateData, { new: true, runValidators: true });
 

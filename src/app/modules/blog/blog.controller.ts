@@ -21,23 +21,26 @@ import BlogModel from './blog.model';
 
 
 const createBlog = catchAsync(async (req, res) => {
-    const { title, content } = req.body;
-    const authorId = req.user._id; // Assume user ID is retrieved from authentication middleware
-
-    const blogData = {
-        title,
-        content,
-        author: authorId,
-        isPublished: false, // Default value
-        createdAt: new Date(),
-        updatedAt: new Date(),
-    };
+    // const { title, content } = req.body;
+    // const authorId = req.user._id; // Assume user ID is retrieved from authentication middleware
+    // const blogData = {
+    //     title,
+    //     content,
+    //     author: authorId,
+    //     isPublished: false, // Default value
+    //     createdAt: new Date(),
+    //     updatedAt: new Date(),
+    // };
 
     // Create a new blog using Mongoose model
-    const newBlog = await BlogModel.create(blogData); // This will ensure it's a valid Mongoose document
+    // const newBlog = await BlogModel.create(blogData); // This will ensure it's a valid Mongoose document
+    const {blog} = req.body ;
+    const newBlog = await BlogService.createBlog(blog); // This will ensure it's a valid Mongoose document
+    // const newBlog = await BlogService.createBlog(req.body); // This will ensure it's a valid Mongoose document
 
     sendResponse(res, {
-        statusCode: httpStatus.CREATED,
+        // statusCode: httpStatus.CREATED,
+        statusCode: httpStatus.OK,
         success: true,
         message: 'Blog created successfully.',
         data: newBlog,
@@ -74,10 +77,11 @@ const getAllBlogs = catchAsync(async (req, res) => {
 // Controller to update a blog (User-specific)
 const updateBlog = catchAsync(async (req, res) => {
     const { id } = req.params; // Blog ID
-    const userId = req.user._id; // User ID from authentication middleware
-    const updates = req.body; // Blog updates
+    // const userId = req.user._id; // User ID from authentication middleware
+    // const updates = req.body; // Blog updates
 
-    const result = await BlogService.updateBlog(id, userId, updates);
+    // const result = await BlogService.updateBlog(id, userId, updates);
+    const result = await BlogService.updateBlog(id, req.body);
 
     sendResponse(res, {
         statusCode: httpStatus.OK,
@@ -86,6 +90,7 @@ const updateBlog = catchAsync(async (req, res) => {
         data: result,
     });
 });
+
 
 // Controller to delete a blog (User-specific)
 const deleteBlog = catchAsync(async (req, res) => {

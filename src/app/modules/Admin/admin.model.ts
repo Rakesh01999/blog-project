@@ -29,6 +29,10 @@ const adminSchema = new Schema<TAdmin, AdminModel>(
       type: Boolean,
       default: false,
     },
+    isDeleted: {
+      type: Boolean,
+      default: false, // Default to not deleted
+    },
   },
   {
     timestamps: true, // Automatically add createdAt and updatedAt fields

@@ -11,9 +11,12 @@ router.post('/create-user', UserControllers.createUser)
 
 router.get('/', UserControllers.getAllUsers);
 
-router.get('/:userId', UserControllers.getSingleUser);
+// router.get('/:userId', UserControllers.getSingleUser);
+router.get('/:id', UserControllers.getSingleUser);
 
 router.patch('/:id', UserControllers.updateUser);
+
+router.delete('/:id', UserControllers.deleteUser) ;
 
 export const UserRoutes = router;
 

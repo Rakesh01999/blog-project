@@ -53,10 +53,37 @@ const deleteAdmin = catchAsync(async (req, res) => {
   });
 });
 
+const blockUser = catchAsync(async (req, res) => {
+  const { userId } = req.params;
+  const result = await AdminServices.blockUser(userId);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'User has been blocked successfully',
+    data: result,
+  });
+});
+
+const deleteBlog = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const result = await AdminServices.deleteBlog(id);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Blog has been deleted successfully',
+    data: result,
+  });
+});
+
+
 export const AdminControllers = {
   getAllAdmins,
   getSingleAdmin,
   deleteAdmin,
   updateAdmin,
+  blockUser,
+  deleteBlog
 };
 

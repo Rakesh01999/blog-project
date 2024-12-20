@@ -78,10 +78,10 @@ const getAllBlogs = catchAsync(async (req, res) => {
 const updateBlog = catchAsync(async (req, res) => {
     const { id } = req.params; // Blog ID
     // const userId = req.user._id; // User ID from authentication middleware
-    // const updates = req.body; // Blog updates
+    const updates = req.body; // Blog updates
 
     // const result = await BlogService.updateBlog(id, userId, updates);
-    const result = await BlogService.updateBlog(id, req.body);
+    const result = await BlogService.updateBlog(id, updates);
 
     sendResponse(res, {
         statusCode: httpStatus.OK,
@@ -95,9 +95,10 @@ const updateBlog = catchAsync(async (req, res) => {
 // Controller to delete a blog (User-specific)
 const deleteBlog = catchAsync(async (req, res) => {
     const { id } = req.params; // Blog ID
-    const userId = req.user._id; // User ID from authentication middleware
+    // const userId = req.user._id; // User ID from authentication middleware
 
-    const result = await BlogService.deleteBlog(id, userId);
+    // const result = await BlogService.deleteBlog(id, userId);
+    const result = await BlogService.deleteBlog(id);
 
     sendResponse(res, {
         statusCode: httpStatus.OK,

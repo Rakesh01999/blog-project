@@ -74,8 +74,10 @@ const getSingleBlog = async (blogId: string) => {
  * @returns - Updated blog document.
  */
 // const updateBlog = async (blogId: string, userId: string, updateData: Partial<IBlog>) => {
-const updateBlog = async (blogId: string, updateData: Partial<IBlog>) => {
-    const blog = await BlogModel.findById(blogId);
+// const updateBlog = async (blogId: string, updateData: Partial<IBlog>) => {
+//     const blog = await BlogModel.findById(blogId);
+const updateBlog = async (id: string, updateData: Partial<IBlog>) => {
+    const blog = await BlogModel.findById(id);
 
     if (!blog) {
         throw new AppError(httpStatus.NOT_FOUND, 'Blog not found');
@@ -85,7 +87,9 @@ const updateBlog = async (blogId: string, updateData: Partial<IBlog>) => {
     //     throw new AppError(httpStatus.FORBIDDEN, 'You are not authorized to update this blog');
     // }
 
-    const updatedBlog = await BlogModel.findByIdAndUpdate(blogId, updateData, { new: true, runValidators: true });
+    // const updatedBlog = await BlogModel.findByIdAndUpdate(blogId, updateData, { new: true, runValidators: true });
+    // const updatedBlog = await BlogModel.findByIdAndUpdate(blogId, updateData);
+    const updatedBlog = await BlogModel.findByIdAndUpdate(id, updateData);
 
     if (!updatedBlog) {
         throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, 'Failed to update blog');
@@ -100,19 +104,22 @@ const updateBlog = async (blogId: string, updateData: Partial<IBlog>) => {
  * @param blogId - ID of the blog to delete.
  * @param userId - ID of the user trying to delete the blog.
  */
-const deleteBlog = async (blogId: string, userId: string) => {
-    const blog = await BlogModel.findById(blogId);
+// const deleteBlog = async (blogId: string, userId: string) => {
+//     const blog = await BlogModel.findById(blogId);
+const deleteBlog = async (id: string) => {
+    const blog = await BlogModel.findById(id);
 
     if (!blog) {
         throw new AppError(httpStatus.NOT_FOUND, 'Blog not found');
     }
 
-    if (blog.author.toString() !== userId) {
-        throw new AppError(httpStatus.FORBIDDEN, 'You are not authorized to delete this blog');
-    }
+    // if (blog.author.toString() !== userId) {
+    //     throw new AppError(httpStatus.FORBIDDEN, 'You are not authorized to delete this blog');
+    // }
 
     // Replace `remove()` with `deleteOne()`
-    await BlogModel.deleteOne({ _id: blogId });
+    // await BlogModel.deleteOne({ _id: blogId });
+    await BlogModel.deleteOne({ _id: id });
 };
 
 /**

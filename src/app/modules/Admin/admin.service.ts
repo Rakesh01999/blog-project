@@ -87,8 +87,10 @@ const blockUserById = async (userId: string) => {
  * @returns - Updated admin document.
  */
 const deleteAdminFromDB = async (adminId: string) => {
-  const deletedAdmin = await Admin.findByIdAndUpdate(
-    adminId,
+  // const deletedAdmin = await Admin.findByIdAndUpdate(
+    // adminId,
+  const deletedAdmin = await Admin.findOneAndUpdate(
+    { _id: adminId, isDeleted: false }, // Ensure both conditions are checked
     { isDeleted: true },
     { new: true }
   );
@@ -106,7 +108,7 @@ const deleteAdminFromDB = async (adminId: string) => {
  * @param payload - Partial admin data to update.
  * @returns - Updated admin document.
  */
-const updateAdminDetails = async (adminId: string, payload: Record<string, unknown>) => {
+const updateAdminIntoDB = async (adminId: string, payload: Record<string, unknown>) => {
   const updatedAdmin = await Admin.findByIdAndUpdate(
     adminId,
     payload,
@@ -127,5 +129,5 @@ export const AdminServices = {
   blockUserById,
   // deleteBlogById,
   deleteAdminFromDB,
-  updateAdminDetails,
+  updateAdminIntoDB,
 };

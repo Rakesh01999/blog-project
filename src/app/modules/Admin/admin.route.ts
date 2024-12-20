@@ -19,7 +19,7 @@ router.patch(
   AdminControllers.updateAdmin,
 );
 
-router.delete('/:adminId', AdminControllers.deleteAdmin);
+router.delete('/:id', AdminControllers.deleteAdmin);
 
 // Admin functionality: block a user
 // router.patch('/admin/users/:userId/block', AdminControllers.blockUser);

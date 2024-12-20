@@ -1,111 +1,79 @@
+import { RequestHandler, Request, Response, NextFunction } from "express";
+import { UserServices } from "./user.service";
+import sendResponse from "../../utils/sendResponse";
+import httpStatus from "http-status";
+import catchAsync from "../../utils/catchAsync";
 
-import { Request, Response } from 'express';
-import { UserServices } from './user.service'; // Assuming the service file is named user.service.ts
 
-// Create a new user
-const createUser = async (req: Request, res: Response) => {
-    try {
-        // const userData = req.body.user; // Extract user data from request body
-        const { user: userData } = req.body;
+const createUser = catchAsync(async (req, res) => {
+    const { user } = req.body;
 
-        const result = await UserServices.createUserInDB(userData); // Call the service method to create the user
+    const result = await UserServices.createUserInDB(user);
 
-        // return res.status(201).json({
-        return res.status(200).json({
-            success: true,
-            message: 'User created successfully',
-            data: result,
-        });
-    } catch (err) {
-        console.error(err);
+    sendResponse(res, {
+        statusCode: httpStatus.CREATED,
+        success: true,
+        message: "User is created successfully",
+        data: result,
+    });
+});
 
-        if (err instanceof Error) {
-            return res.status(500).json({
-                success: false,
-                message: 'Failed to create the user',
-                error: err.message,
-            });
-        }
 
-        return res.status(500).json({
-            success: false,
-            message: 'An unknown error occurred',
-            error: String(err),
-        });
-    }
-};
+const getAllUsers = catchAsync(async (req, res) => {
+    const result = await UserServices.getAllUsersFromDB(req.query);
 
-// Get all users
-const getAllUsers = async (req: Request, res: Response) => {
-    try {
-        const result = await UserServices.getAllUsersFromDB();
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "Users are retrieved successfully",
+        data: result,
+    });
+});
 
-        return res.status(200).json({
-            success: true,
-            message: 'Users retrieved successfully',
-            data: result,
-        });
-    } catch (err) {
-        console.error(err);
+const getSingleUser = catchAsync(async (req, res) => {
+    const { id } = req.params;
 
-        if (err instanceof Error) {
-            return res.status(500).json({
-                success: false,
-                message: 'Failed to retrieve users',
-                error: err.message,
-            });
-        }
+    const result = await UserServices.getSingleUserFromDB(id);
 
-        return res.status(500).json({
-            success: false,
-            message: 'An unknown error occurred',
-            error: String(err),
-        });
-    }
-};
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "User is retrieved successfully",
+        data: result,
+    });
+});
 
-// Get a single user by ID
-const getSingleUser = async (req: Request, res: Response) => {
-    try {
-        const { userId } = req.params; // Extract userId from request parameters
-        const result = await UserServices.getSingleUserFromDB(userId);
+const updateUser = catchAsync(async (req, res) => {
+    const { id } = req.params;
+    const { user } = req.body;
 
-        if (!result) {
-            return res.status(404).json({
-                success: false,
-                message: 'User not found',
-            });
-        }
+    const result = await UserServices.updateUserInDB(id, user);
 
-        return res.status(200).json({
-            success: true,
-            message: 'User retrieved successfully',
-            data: result,
-        });
-    } catch (err) {
-        console.error(err);
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "User is updated successfully",
+        data: result,
+    });
+});
 
-        if (err instanceof Error) {
-            return res.status(500).json({
-                success: false,
-                message: 'Failed to retrieve the user',
-                error: err.message,
-            });
-        }
+const deleteUser = catchAsync(async (req, res) => {
+    const { id } = req.params;
 
-        return res.status(500).json({
-            success: false,
-            message: 'An unknown error occurred',
-            error: String(err),
-        });
-    }
-};
+    const result = await UserServices.deleteUserFromDB(id);
 
-// Export the user controllers
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "User is deleted successfully",
+        data: result,
+    });
+});
+
 export const UserControllers = {
-    createUser,
     getAllUsers,
     getSingleUser,
+    updateUser,
+    deleteUser,
+    createUser,
 };
-
-

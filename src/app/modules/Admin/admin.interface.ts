@@ -1,42 +1,16 @@
+import { Model } from 'mongoose';
 
-
-import { Model, Types } from 'mongoose';
-
-export type TGender = 'male' | 'female' | 'other';
-export type TBloodGroup =
-  | 'A+'
-  | 'A-'
-  | 'B+'
-  | 'B-'
-  | 'AB+'
-  | 'AB-'
-  | 'O+'
-  | 'O-';
-
-export type TUserName = {
-  firstName: string;
-  middleName: string;
-  lastName: string;
-};
+export type TUserRole = 'admin' | 'user';
 
 export type TAdmin = {
-  id: string;
-  user: Types.ObjectId;
-  designation: string;
-  name: TUserName;
-  gender: TGender;
-  dateOfBirth?: Date;
-  email: string;
-  contactNo: string;
-  emergencyContactNo: string;
-  bloogGroup?: TBloodGroup;
-  presentAddress: string;
-  permanentAddress: string;
-  profileImg?: string;
-  isDeleted: boolean;
+  id: string; // Unique identifier for the admin
+  email: string; // Admin email
+  password: string; // Admin password (stored securely)
+  role: TUserRole; // Role, which will always be "admin" for admins
+  isBlocked?: boolean; // Optional field to indicate if the admin is blocked (if needed for edge cases)
 };
 
 export interface AdminModel extends Model<TAdmin> {
-  isUserExists(id: string): Promise<TAdmin | null>;
+  isAdminExists(email: string): Promise<TAdmin | null>; // Check if an admin exists by email
+  isUserBlocked(userId: string): Promise<boolean>; // Check if a user is blocked
 }
-

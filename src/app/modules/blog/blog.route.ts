@@ -13,7 +13,19 @@ const router = express.Router();
 // Routes for blog management
 // router.post('/', authenticateUser, BlogControllers.createBlog); // Create a blog
 // router.post('/', BlogControllers.createBlog); // Create a blog
-router.post('/create-blog', BlogControllers.createBlog); // Create a blog
+// router.post('/create-blog', BlogControllers.createBlog); // Create a blog
+router.post('/create-blog', auth(USER_ROLE.user),validateRequest(createBlogValidationSchema),BlogControllers.createBlog); // Create a blog
+// router.post(
+//     '/create-blog',
+//     auth(USER_ROLE.user),
+//     (req, res, next) => {
+//       console.log('Request body before validation:', req.body);
+//       next();
+//     },
+//     validateRequest(createBlogValidationSchema),
+//     BlogControllers.createBlog
+//   );
+  
 
 router.get('/', BlogControllers.getAllBlogs); // Public route: Get all blogs
 

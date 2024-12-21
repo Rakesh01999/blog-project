@@ -34,8 +34,19 @@ const createBlog = catchAsync(async (req, res) => {
 
     // Create a new blog using Mongoose model
     // const newBlog = await BlogModel.create(blogData); // This will ensure it's a valid Mongoose document
-    const {blog} = req.body ;
-    const newBlog = await BlogService.createBlog(blog); // This will ensure it's a valid Mongoose document
+    // const {blog} = req.body ;
+    // const authorId = req.user._id; // Retrieve the logged-in user's ID
+    
+    const blogData = {
+        ...req.body,
+        author: req.user.id, // Ensure the logged-in user's ID is added as the author
+    };
+    // console.log('user',req.user.id);
+    // console.log('blogData',blogData);
+    
+    // const newBlog = await BlogService.createBlog(blog); // This will ensure it's a valid Mongoose document
+    const newBlog = (await BlogService.createBlog(blogData)) // This will ensure it's a valid Mongoose document
+    // const newBlog = (await BlogService.createBlog(blogData)).populate('author', 'name email'); // This will ensure it's a valid Mongoose document
     // const newBlog = await BlogService.createBlog(req.body); // This will ensure it's a valid Mongoose document
 
     sendResponse(res, {
@@ -45,6 +56,7 @@ const createBlog = catchAsync(async (req, res) => {
         message: 'Blog created successfully.',
         data: newBlog,
     });
+    
 });
 
 
@@ -79,6 +91,8 @@ const updateBlog = catchAsync(async (req, res) => {
     const { id } = req.params; // Blog ID
     // const userId = req.user._id; // User ID from authentication middleware
     const updates = req.body; // Blog updates
+    const userId = req.user.id; // Get the logged-in user's ID from req.user
+    // console.log('userId :', userId);
 
     // const result = await BlogService.updateBlog(id, userId, updates);
     const result = await BlogService.updateBlog(id, updates);

@@ -3,19 +3,35 @@
 import { z } from 'zod';
 
 // Validation for Blog Creation
+// export const createBlogValidationSchema = z.object({
+//   body: z.object({
+//     title: z
+//       .string()
+//       .min(5, "Title must be at least 5 characters")
+//       .max(100, "Title must not exceed 100 characters"),
+//     // .nonempty("Title is required"),
+//     content: z
+//       .string()
+//       .min(10, "Content must be at least 10 characters"),
+//     // .nonempty("Content is required"),
+//     author: z
+//       .string()
+//       .nonempty("Author is required")
+//       .regex(/^[0-9a-fA-F]{24}$/, "Invalid Author ID format"), // Validate ObjectId format for MongoDB
+
+//   }),
+// });
+
 export const createBlogValidationSchema = z.object({
   body: z.object({
-    title: z
-      .string()
-      .min(5, "Title must be at least 5 characters")
-      .max(100, "Title must not exceed 100 characters"),
-      // .nonempty("Title is required"),
-    content: z
-      .string()
-      .min(10, "Content must be at least 10 characters"),
-      // .nonempty("Content is required"),
+    title: z.string().nonempty("Blog title is required"),
+    content: z.string().nonempty("Blog content is required"),
+    // author: z.string().nonempty("Author is required"),
   }),
+  params: z.object({}).optional(), // If no params are being validated
+  cookies: z.object({}).optional(), // If no cookies are being validated
 });
+
 
 // Validation for Blog Update
 export const updateBlogValidationSchema = z.object({
@@ -43,8 +59,8 @@ export const getSingleBlogValidationSchema = z.object({
 export const deleteBlogValidationSchema = z.object({
   params: z.object({
     id: z
-    .string().nonempty("Blog ID is required")
-    .regex(/^[0-9a-fA-F]{24}$/, "Invalid Blog ID format"), // Validate ObjectId format
+      .string().nonempty("Blog ID is required")
+      .regex(/^[0-9a-fA-F]{24}$/, "Invalid Blog ID format"), // Validate ObjectId format
 
   }),
 });

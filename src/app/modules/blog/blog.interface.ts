@@ -7,7 +7,7 @@ import { Document, Types } from 'mongoose';
 export interface IBlog extends Document {
   title: string; // Blog title
   content: string; // Main content of the blog
-  author: Types.ObjectId; // Reference to the User model
+  author?: Types.ObjectId; // Reference to the User model
   isPublished: boolean; // Whether the blog is published or not
   createdAt: Date; // Timestamp when the blog was created
   updatedAt: Date; // Timestamp of the last update to the blog

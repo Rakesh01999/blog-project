@@ -9,12 +9,16 @@ import AppError from '../../error/AppError';
  * @returns - Created blog document.
  */
 const createBlog = async (blogData: IBlog) => {
+    // const blog = await BlogModel.findById(blogData._id).populate('author', 'name email'); 
+    // const blog = (await BlogModel.create(blogData)).populate('author', 'name email');
     const blog = await BlogModel.create(blogData);
     if (!blog) {
         throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, 'Failed to create blog');
     }
 
-    return blog;
+    // return blog;
+    return await BlogModel.findById(blog._id).populate('author', 'name email'); // Adjust fields as needed
+
 };
 
 /**

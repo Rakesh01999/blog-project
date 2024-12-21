@@ -12,7 +12,6 @@ const auth = (...requiredRoles: TUserRole[]) => {
     // const token = req.headers.authorization?.split(' ')[1]; // Extract Bearer token
     const token = req.headers.authorization; // Extract Bearer token
 
-
     // Check if token is missing
     if (!token) {
       throw new AppError(httpStatus.UNAUTHORIZED, 'You are not authorized!');

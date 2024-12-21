@@ -5,7 +5,7 @@ import { BlogControllers } from './blog.controller';
 import auth from '../../middlewares/auth';
 import { USER_ROLE } from '../user/user.constant';
 import validateRequest from '../../middlewares/validateRequest';
-import { createBlogValidationSchema } from './blog.validation';
+import { createBlogValidationSchema, deleteBlogValidationSchema } from './blog.validation';
 // import { authenticateUser, authorizeRoles } from '../../middlewares/auth.middleware';
 
 const router = express.Router();
@@ -26,7 +26,8 @@ router.patch('/:id', auth(USER_ROLE.user), validateRequest(createBlogValidationS
 
 
 // router.delete('/:id', authenticateUser, BlogControllers.deleteBlog); // Delete a blog
-router.delete('/:id', BlogControllers.deleteBlog); // Delete a blog
+// router.delete('/:id', BlogControllers.deleteBlog); // Delete a blog
+router.delete('/:id',auth(USER_ROLE.user),validateRequest(deleteBlogValidationSchema), BlogControllers.deleteBlog); // Delete a blog
 
 // Admin-specific routes
 // router.delete('/admin/:id', authenticateUser, authorizeRoles('admin'), BlogControllers.adminDeleteBlog); // Admin: Delete any blog

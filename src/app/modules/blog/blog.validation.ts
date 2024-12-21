@@ -42,7 +42,10 @@ export const getSingleBlogValidationSchema = z.object({
 // Validation for Blog Deletion
 export const deleteBlogValidationSchema = z.object({
   params: z.object({
-    id: z.string().nonempty("Blog ID is required"),
+    id: z
+    .string().nonempty("Blog ID is required")
+    .regex(/^[0-9a-fA-F]{24}$/, "Invalid Blog ID format"), // Validate ObjectId format
+
   }),
 });
 

@@ -35,9 +35,12 @@ const registerUser = async (payload: { name: string; email: string; password: st
 const loginUser = async (payload: { email: string; password: string }) => {
     const { email, password } = payload;
 
+    console.log(email);
+    console.log(password);
     // Find user by email
     const user = await UserModel.findOne({ email });
-
+    console.log(user?.password);
+    
     if (!user) {
         throw new AppError(httpStatus.UNAUTHORIZED, 'Invalid credentials');
     }
@@ -51,10 +54,14 @@ const loginUser = async (payload: { email: string; password: string }) => {
     }
 
     // Verify password
-    const isPasswordMatched = await bcrypt.compare(password, user.password);
-    if (!isPasswordMatched) {
+    // const isPasswordMatched = await bcrypt.compare(password, user.password);
+    // if (!isPasswordMatched) {
+    //     throw new AppError(httpStatus.UNAUTHORIZED, 'Invalid credentials');
+    // }
+    if (user.password !== password) {
         throw new AppError(httpStatus.UNAUTHORIZED, 'Invalid credentials');
     }
+    
 
     // Create JWT payload
     const jwtPayload = {

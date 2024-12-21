@@ -13,6 +13,7 @@ const router = express.Router()
 
 // router.post('/create-user', UserControllers.createUser)
 router.post('/create-user', auth(USER_ROLE.user), validateRequest(createUserValidationSchema), UserControllers.createUser);
+// router.post('/create-user', auth(USER_ROLE.admin), validateRequest(createUserValidationSchema), UserControllers.createUser);
 
 router.get('/', UserControllers.getAllUsers);
 

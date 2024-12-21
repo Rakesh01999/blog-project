@@ -1,7 +1,3 @@
-
-
-
-
 import express from 'express';
 import validateRequest from '../../middlewares/validateRequest';
 import { USER_ROLE } from './../user/user.constant';
@@ -38,5 +34,3 @@ router.post(
 // );
 
 export const AuthRoutes = router;
-
-

@@ -1,5 +1,3 @@
-
-
 import httpStatus from 'http-status';
 import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
@@ -89,7 +87,6 @@ const deleteBlog = catchAsync(async (req, res) => {
   });
 });
 
-
 export const AdminControllers = {
   createAdmin,
   getAllAdmins,
@@ -97,6 +94,5 @@ export const AdminControllers = {
   deleteAdmin,
   updateAdmin,
   blockUser,
-  deleteBlog
+  deleteBlog,
 };
-

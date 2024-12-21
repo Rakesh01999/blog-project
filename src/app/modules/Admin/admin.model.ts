@@ -39,7 +39,7 @@ const adminSchema = new Schema<TAdmin, AdminModel>(
     toJSON: {
       virtuals: true,
     },
-  }
+  },
 );
 
 // Pre-hook: Filter out blocked admins if necessary

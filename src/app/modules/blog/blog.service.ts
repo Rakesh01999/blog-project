@@ -9,16 +9,18 @@ import AppError from '../../error/AppError';
  * @returns - Created blog document.
  */
 const createBlog = async (blogData: IBlog) => {
-    // const blog = await BlogModel.findById(blogData._id).populate('author', 'name email'); 
-    // const blog = (await BlogModel.create(blogData)).populate('author', 'name email');
-    const blog = await BlogModel.create(blogData);
-    if (!blog) {
-        throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, 'Failed to create blog');
-    }
+  // const blog = await BlogModel.findById(blogData._id).populate('author', 'name email');
+  // const blog = (await BlogModel.create(blogData)).populate('author', 'name email');
+  const blog = await BlogModel.create(blogData);
+  if (!blog) {
+    throw new AppError(
+      httpStatus.INTERNAL_SERVER_ERROR,
+      'Failed to create blog',
+    );
+  }
 
-    // return blog;
-    return await BlogModel.findById(blog._id).populate('author', 'name email'); // Adjust fields as needed
-
+  // return blog;
+  return await BlogModel.findById(blog._id).populate('author', 'name email'); // Adjust fields as needed
 };
 
 /**
@@ -27,31 +29,28 @@ const createBlog = async (blogData: IBlog) => {
  * @returns - List of blogs.
  */
 const getAllBlogs = async (query: any) => {
-    const { search, sortBy, filterBy, page = 1, limit = 10 } = query;
+  const { search, sortBy, filterBy, page = 1, limit = 10 } = query;
 
-    // Build filter object
-    const filter = filterBy ? { author: filterBy } : {};
+  // Build filter object
+  const filter = filterBy ? { author: filterBy } : {};
 
-    // Build sorting object
-    const sort: { [key: string]: 1 | -1 } = {};
+  // Build sorting object
+  const sort: { [key: string]: 1 | -1 } = {};
 
-    if (sortBy) {
-        sort[sortBy] = -1; // sort in descending order by default
-    } else {
-        sort.createdAt = -1; // default sort by createdAt in descending order
-    }
+  if (sortBy) {
+    sort[sortBy] = -1; // sort in descending order by default
+  } else {
+    sort.createdAt = -1; // default sort by createdAt in descending order
+  }
 
-    // Pagination
-    const skip = (page - 1) * limit;
+  // Pagination
+  const skip = (page - 1) * limit;
 
-    const blogs = await BlogModel.find(filter)
-        .sort(sort)
-        .skip(skip)
-        .limit(limit);
+  const blogs = await BlogModel.find(filter).sort(sort).skip(skip).limit(limit);
 
-    const totalBlogs = await BlogModel.countDocuments(filter);
+  const totalBlogs = await BlogModel.countDocuments(filter);
 
-    return { blogs, totalBlogs };
+  return { blogs, totalBlogs };
 };
 
 /**
@@ -60,13 +59,13 @@ const getAllBlogs = async (query: any) => {
  * @returns - Blog document.
  */
 const getSingleBlog = async (blogId: string) => {
-    const blog = await BlogModel.findById(blogId);
+  const blog = await BlogModel.findById(blogId);
 
-    if (!blog) {
-        throw new AppError(httpStatus.NOT_FOUND, 'Blog not found');
-    }
+  if (!blog) {
+    throw new AppError(httpStatus.NOT_FOUND, 'Blog not found');
+  }
 
-    return blog;
+  return blog;
 };
 
 /**
@@ -81,25 +80,28 @@ const getSingleBlog = async (blogId: string) => {
 // const updateBlog = async (blogId: string, updateData: Partial<IBlog>) => {
 //     const blog = await BlogModel.findById(blogId);
 const updateBlog = async (id: string, updateData: Partial<IBlog>) => {
-    const blog = await BlogModel.findById(id);
+  const blog = await BlogModel.findById(id);
 
-    if (!blog) {
-        throw new AppError(httpStatus.NOT_FOUND, 'Blog not found');
-    }
+  if (!blog) {
+    throw new AppError(httpStatus.NOT_FOUND, 'Blog not found');
+  }
 
-    // if (blog.author.toString() !== userId) {
-    //     throw new AppError(httpStatus.FORBIDDEN, 'You are not authorized to update this blog');
-    // }
+  // if (blog.author.toString() !== userId) {
+  //     throw new AppError(httpStatus.FORBIDDEN, 'You are not authorized to update this blog');
+  // }
 
-    // const updatedBlog = await BlogModel.findByIdAndUpdate(blogId, updateData, { new: true, runValidators: true });
-    // const updatedBlog = await BlogModel.findByIdAndUpdate(blogId, updateData);
-    const updatedBlog = await BlogModel.findByIdAndUpdate(id, updateData);
+  // const updatedBlog = await BlogModel.findByIdAndUpdate(blogId, updateData, { new: true, runValidators: true });
+  // const updatedBlog = await BlogModel.findByIdAndUpdate(blogId, updateData);
+  const updatedBlog = await BlogModel.findByIdAndUpdate(id, updateData);
 
-    if (!updatedBlog) {
-        throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, 'Failed to update blog');
-    }
+  if (!updatedBlog) {
+    throw new AppError(
+      httpStatus.INTERNAL_SERVER_ERROR,
+      'Failed to update blog',
+    );
+  }
 
-    return updatedBlog;
+  return updatedBlog;
 };
 
 /**
@@ -111,19 +113,19 @@ const updateBlog = async (id: string, updateData: Partial<IBlog>) => {
 // const deleteBlog = async (blogId: string, userId: string) => {
 //     const blog = await BlogModel.findById(blogId);
 const deleteBlog = async (id: string) => {
-    const blog = await BlogModel.findById(id);
+  const blog = await BlogModel.findById(id);
 
-    if (!blog) {
-        throw new AppError(httpStatus.NOT_FOUND, 'Blog not found');
-    }
+  if (!blog) {
+    throw new AppError(httpStatus.NOT_FOUND, 'Blog not found');
+  }
 
-    // if (blog.author.toString() !== userId) {
-    //     throw new AppError(httpStatus.FORBIDDEN, 'You are not authorized to delete this blog');
-    // }
+  // if (blog.author.toString() !== userId) {
+  //     throw new AppError(httpStatus.FORBIDDEN, 'You are not authorized to delete this blog');
+  // }
 
-    // Replace `remove()` with `deleteOne()`
-    // await BlogModel.deleteOne({ _id: blogId });
-    await BlogModel.deleteOne({ _id: id });
+  // Replace `remove()` with `deleteOne()`
+  // await BlogModel.deleteOne({ _id: blogId });
+  await BlogModel.deleteOne({ _id: id });
 };
 
 /**
@@ -132,21 +134,21 @@ const deleteBlog = async (id: string) => {
  * @param blogId - ID of the blog to delete.
  */
 const adminDeleteBlog = async (blogId: string) => {
-    const blog = await BlogModel.findById(blogId);
+  const blog = await BlogModel.findById(blogId);
 
-    if (!blog) {
-        throw new AppError(httpStatus.NOT_FOUND, 'Blog not found');
-    }
+  if (!blog) {
+    throw new AppError(httpStatus.NOT_FOUND, 'Blog not found');
+  }
 
-    // Admin can delete the blog
-    await BlogModel.deleteOne({ _id: blogId });
+  // Admin can delete the blog
+  await BlogModel.deleteOne({ _id: blogId });
 };
 
 export const BlogService = {
-    createBlog,
-    getAllBlogs,
-    getSingleBlog,
-    updateBlog,
-    deleteBlog,
-    adminDeleteBlog,
+  createBlog,
+  getAllBlogs,
+  getSingleBlog,
+  updateBlog,
+  deleteBlog,
+  adminDeleteBlog,
 };

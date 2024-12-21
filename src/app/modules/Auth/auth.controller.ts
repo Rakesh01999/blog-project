@@ -7,10 +7,11 @@ const loginUser = catchAsync(async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
   // Authenticate user and get tokens
-  const { accessToken, refreshToken, needsPasswordChange } = await AuthServices.loginUser({
-    email,
-    password,
-  });
+  const { accessToken, refreshToken, needsPasswordChange } =
+    await AuthServices.loginUser({
+      email,
+      password,
+    });
 
   res.status(httpStatus.OK).json({
     success: true,

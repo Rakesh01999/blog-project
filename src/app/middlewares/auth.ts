@@ -26,7 +26,7 @@ const auth = (...requiredRoles: TUserRole[]) => {
     const { role, userId, iat } = decoded;
     // console.log(userId) ;
     // console.log(decoded) ;
-  
+
     // Ensure 'iat' is defined
     if (!iat) {
       throw new AppError(
@@ -37,7 +37,7 @@ const auth = (...requiredRoles: TUserRole[]) => {
 
     // Fetch user from the database
     const user = await UserModel.findById(userId);
-    // console.log('user :',user); 
+    // console.log('user :',user);
 
     if (!user) {
       throw new AppError(httpStatus.NOT_FOUND, 'This user does not exist!');

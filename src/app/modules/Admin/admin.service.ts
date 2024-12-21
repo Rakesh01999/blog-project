@@ -5,17 +5,21 @@ import { Admin } from './admin.model';
 import AppError from '../../error/AppError';
 import { AdminModel, TAdmin } from './admin.interface';
 
-
 /**
  * Create a new admin.
  * @param adminData - Data for the new admin.
  * @returns - Created admin document.
  */
-const createAdmin = async (adminData: Pick<TAdmin, 'email' | 'password' | 'role'>) => {
+const createAdmin = async (
+  adminData: Pick<TAdmin, 'email' | 'password' | 'role'>,
+) => {
   const existingAdmin = await Admin.findOne({ email: adminData.email });
 
   if (existingAdmin) {
-    throw new AppError(httpStatus.CONFLICT, 'Admin with this email already exists');
+    throw new AppError(
+      httpStatus.CONFLICT,
+      'Admin with this email already exists',
+    );
   }
 
   const newAdmin = await Admin.create(adminData);
@@ -55,11 +59,14 @@ const blockUserById = async (userId: string) => {
   const result = await Admin.findOneAndUpdate(
     { _id: userId, isDeleted: false },
     { $set: { isBlocked: true } },
-    { new: true, runValidators: true }
+    { new: true, runValidators: true },
   );
 
   if (!result) {
-    throw new AppError(httpStatus.NOT_FOUND, 'User not found or already blocked');
+    throw new AppError(
+      httpStatus.NOT_FOUND,
+      'User not found or already blocked',
+    );
   }
 
   return result;
@@ -88,11 +95,11 @@ const blockUserById = async (userId: string) => {
  */
 const deleteAdminFromDB = async (adminId: string) => {
   // const deletedAdmin = await Admin.findByIdAndUpdate(
-    // adminId,
+  // adminId,
   const deletedAdmin = await Admin.findOneAndUpdate(
     { _id: adminId, isDeleted: false }, // Ensure both conditions are checked
     { isDeleted: true },
-    { new: true }
+    { new: true },
   );
 
   if (!deletedAdmin) {
@@ -108,12 +115,14 @@ const deleteAdminFromDB = async (adminId: string) => {
  * @param payload - Partial admin data to update.
  * @returns - Updated admin document.
  */
-const updateAdminIntoDB = async (adminId: string, payload: Record<string, unknown>) => {
-  const updatedAdmin = await Admin.findByIdAndUpdate(
-    adminId,
-    payload,
-    { new: true, runValidators: true }
-  );
+const updateAdminIntoDB = async (
+  adminId: string,
+  payload: Record<string, unknown>,
+) => {
+  const updatedAdmin = await Admin.findByIdAndUpdate(adminId, payload, {
+    new: true,
+    runValidators: true,
+  });
 
   if (!updatedAdmin || updatedAdmin.isDeleted) {
     throw new AppError(httpStatus.NOT_FOUND, 'Admin not found or deleted');

@@ -1,5 +1,3 @@
-
-
 import { z } from 'zod';
 
 // Validation for Blog Creation
@@ -24,26 +22,25 @@ import { z } from 'zod';
 
 export const createBlogValidationSchema = z.object({
   body: z.object({
-    title: z.string().nonempty("Blog title is required"),
-    content: z.string().nonempty("Blog content is required"),
+    title: z.string().nonempty('Blog title is required'),
+    content: z.string().nonempty('Blog content is required'),
     // author: z.string().nonempty("Author is required"),
   }),
   params: z.object({}).optional(), // If no params are being validated
   cookies: z.object({}).optional(), // If no cookies are being validated
 });
 
-
 // Validation for Blog Update
 export const updateBlogValidationSchema = z.object({
   body: z.object({
     title: z
       .string()
-      .min(5, "Title must be at least 5 characters")
-      .max(100, "Title must not exceed 100 characters")
+      .min(5, 'Title must be at least 5 characters')
+      .max(100, 'Title must not exceed 100 characters')
       .optional(),
     content: z
       .string()
-      .min(10, "Content must be at least 10 characters")
+      .min(10, 'Content must be at least 10 characters')
       .optional(),
   }),
 });
@@ -51,7 +48,7 @@ export const updateBlogValidationSchema = z.object({
 // Validation for Single Blog Retrieval
 export const getSingleBlogValidationSchema = z.object({
   params: z.object({
-    id: z.string().nonempty("Blog ID is required"),
+    id: z.string().nonempty('Blog ID is required'),
   }),
 });
 
@@ -59,16 +56,16 @@ export const getSingleBlogValidationSchema = z.object({
 export const deleteBlogValidationSchema = z.object({
   params: z.object({
     id: z
-      .string().nonempty("Blog ID is required")
-      .regex(/^[0-9a-fA-F]{24}$/, "Invalid Blog ID format"), // Validate ObjectId format
-
+      .string()
+      .nonempty('Blog ID is required')
+      .regex(/^[0-9a-fA-F]{24}$/, 'Invalid Blog ID format'), // Validate ObjectId format
   }),
 });
 
 // Validation for Admin Deleting a Blog (Optional)
 export const adminDeleteBlogValidationSchema = z.object({
   params: z.object({
-    id: z.string().nonempty("Blog ID is required"),
+    id: z.string().nonempty('Blog ID is required'),
   }),
 });
 
@@ -91,5 +88,3 @@ export const BlogValidations = {
   adminDeleteBlogValidationSchema,
   searchBlogValidationSchema,
 };
-
-

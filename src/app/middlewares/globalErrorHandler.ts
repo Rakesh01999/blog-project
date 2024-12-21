@@ -8,29 +8,24 @@ import handleCastError from '../error/handleCastError';
 import handleDuplicateError from '../error/handleDuplicateError';
 import AppError from '../error/AppError';
 
-
-
 // const globalErrorHandler = (err: any, req: Request, res: Response, next: NextFunction) => {
 const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
-
-  // setting default values 
+  // setting default values
   let statusCode = 500; // Use provided status code or default to 500
-  let message = "Something went wrong!";
+  let message = 'Something went wrong!';
 
-
-  let errorSources: TErrorSources = [{
-    path: '',
-    message: 'Something went wrong',
-  }];
-
+  let errorSources: TErrorSources = [
+    {
+      path: '',
+      message: 'Something went wrong',
+    },
+  ];
 
   if (err instanceof ZodError) {
-
     const simplifiedError = handleZodError(err);
     statusCode = simplifiedError?.statusCode;
     message = simplifiedError?.message;
-    errorSources = simplifiedError?.errorSources
-
+    errorSources = simplifiedError?.errorSources;
   } else if (err?.name === 'ValidationError') {
     // console.log('Mongoose er validation error ! ') ;
     const simplifiedError = handleValidationError(err);
@@ -65,8 +60,7 @@ const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
     ];
   }
 
-
-  // ultimate return 
+  // ultimate return
   return res.status(statusCode).json({
     success: false,
     message,
@@ -78,12 +72,7 @@ const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
   });
 };
 
-
-
-
-
 export default globalErrorHandler;
-
 
 // pattern
 /*

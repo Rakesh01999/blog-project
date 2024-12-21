@@ -1,6 +1,3 @@
-
-
-
 import { Document, Types } from 'mongoose';
 
 // Blog Interface
@@ -23,4 +20,3 @@ export interface IBlogQuery {
     isPublished?: boolean; // Filter by publication status
   };
 }
-

@@ -1,6 +1,3 @@
-
-
-
 import mongoose, { Schema, Document } from 'mongoose';
 
 export interface IBlog extends Document {
@@ -36,12 +33,9 @@ const BlogSchema: Schema = new Schema<IBlog>(
   },
   {
     timestamps: true, // Automatically adds `createdAt` and `updatedAt` fields
-  }
+  },
 );
 
 const BlogModel = mongoose.model<IBlog>('Blog', BlogSchema);
 
 export default BlogModel;
-
-
-

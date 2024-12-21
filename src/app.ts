@@ -26,12 +26,10 @@ app.use('/api', router);
 // };
 // app.get('/', getAController);
 
-
 // Controller for root route
 const test = async (req: Request, res: Response) => {
   // Promise.reject();
-  res.status(200).send("Success"); // HTTP 200 OK with a message
-
+  res.status(200).send('Success'); // HTTP 200 OK with a message
 };
 
 app.get('/', test);
@@ -40,7 +38,6 @@ app.use(globalErrorHandler);
 
 // Not Found
 app.use(notFound);
-
 
 // console.log(process.cwd()); // E:\web\Programming Hero\Level 2\Mission 01-Be A Typescript Technocrat\Module 8-Mastering The Core concept of Mongoose\first-project
 

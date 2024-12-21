@@ -1,28 +1,35 @@
-import globals from 'globals';
-import pluginJs from '@eslint/js';
-import tseslint from 'typescript-eslint';
+import globals from "globals";
+import js from "@eslint/js";
+import * as tsEslint from "@typescript-eslint/eslint-plugin";
+import * as tsParser from "@typescript-eslint/parser";
 
-/** @type {import('eslint').Linter.Config[]} */
+/** @type {import('eslint').Linter.FlatConfig[]} */
 export default [
-  { files: ['**/*.{js,mjs,cjs,ts}'] },
-  { languageOptions: { globals: { ...globals.browser, ...globals.node } } },
-  pluginJs.configs.recommended,
-  ...tseslint.configs.recommended,
   {
-    ignores: ['node_modules', 'dist'],
+    files: ["**/*.{js,mjs,cjs,ts}"],
+    languageOptions: {
+      parser: tsParser, // Use TypeScript parser
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+        process: "readonly",
+      },
+    },
     rules: {
-      'no-unused-vars': 'error',
-      'no-unused-expressions': 'error',
-      'prefer-const': 'error',
-      'no-console': 'warn',
-      'no-undef': 'error',
-      '@typescript-eslint/no-unused-vars': 'warn',
+      // JavaScript recommended rules
+      ...js.configs.recommended.rules,
+      // TypeScript recommended rules
+      ...tsEslint.configs.recommended.rules,
+      // Custom rules
+      "no-unused-vars": "error",
+      "no-unused-expressions": "error",
+      "prefer-const": "error",
+      "no-console": "warn",
+      "no-undef": "error",
+      "@typescript-eslint/no-unused-vars": "warn",
     },
-    globals: {
-      process: 'readonly',
-    },
-    plugins: {
-      '@typescript-eslint': tseslint,
-    },
+  },
+  {
+    ignores: ["node_modules", "dist"], // Ignore unnecessary directories
   },
 ];

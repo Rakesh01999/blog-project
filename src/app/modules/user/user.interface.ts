@@ -3,7 +3,7 @@ import { USER_ROLE } from './user.constant';
 
 // export interface User {
 export interface TUser {
-  id: string;
+  // id?: string;
   name: string;
   email: string;
   password: string;

@@ -9,7 +9,7 @@ import handleDuplicateError from '../error/handleDuplicateError';
 import AppError from '../error/AppError';
 
 // const globalErrorHandler = (err: any, req: Request, res: Response, next: NextFunction) => {
-const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
+const globalErrorHandler: ErrorRequestHandler = (err, req, res, next):void => {
   // setting default values
   let statusCode = 500; // Use provided status code or default to 500
   let message = 'Something went wrong!';
@@ -61,7 +61,8 @@ const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
   }
 
   // ultimate return
-  return res.status(statusCode).json({
+  // return res.status(statusCode).json({
+  res.status(statusCode).json({
     success: false,
     message,
     // error: process.env.NODE_ENV === "development" ? err.stack : undefined, // Show stack in development mode

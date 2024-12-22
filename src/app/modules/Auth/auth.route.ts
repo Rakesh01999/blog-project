@@ -7,6 +7,14 @@ import { AuthController } from './auth.controller';
 
 const router = express.Router();
 
+// User Registration
+router.post(
+  '/register',
+  // auth(USER_ROLE.admin),
+  validateRequest(AuthValidation.registerValidationSchema),
+  AuthController.registerUser,
+);
+
 router.post(
   '/login',
   validateRequest(AuthValidation.loginValidationSchema),

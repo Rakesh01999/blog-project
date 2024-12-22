@@ -33,6 +33,15 @@ const adminSchema = new Schema<TAdmin, AdminModel>(
       type: Boolean,
       default: false, // Default to not deleted
     },
+    needsPasswordChange: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
+    passwordChangedAt: {
+      type: Date,
+      default: null,
+    },
   },
   {
     timestamps: true, // Automatically add createdAt and updatedAt fields

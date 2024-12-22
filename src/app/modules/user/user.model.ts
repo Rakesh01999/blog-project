@@ -3,11 +3,11 @@ import { TUser } from './user.interface';
 
 const userSchema = new Schema<TUser>(
   {
-    id: {
-      type: String,
-      required: true,
-      unique: true,
-    },
+    // id: {
+    //   type: String,
+    //   // required: true,
+    //   unique: true,
+    // },
     name: {
       type: String,
       required: true,
@@ -30,12 +30,12 @@ const userSchema = new Schema<TUser>(
     },
     passwordChangedAt: {
       type: Date,
-      default: null,
+      // default: null,
     },
     role: {
       type: String,
       enum: ['admin', 'user'],
-      required: true,
+      // required: true,
     },
     status: {
       type: String,

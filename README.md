@@ -2,6 +2,9 @@
 
 A backend service for a blog platform built with Node.js, Express, TypeScript, and MongoDB.
 
+## Live Link:
+(live-project-link)[https://blog-project-coral-pi.vercel.app/]
+
 ## Features
 - User registration and authentication
 - Role-based access control (Admin and User roles)

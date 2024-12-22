@@ -7,6 +7,8 @@ export type TAdmin = {
   email: string; // Admin email
   password: string; // Admin password (stored securely)
   role: TUserRole; // Role, which will always be "admin" for admins
+  needsPasswordChange: boolean;
+  passwordChangedAt?: Date;
   isBlocked?: boolean; // Optional field to indicate if the admin is blocked (if needed for edge cases)
   isDeleted?: boolean; // Optional field to indicate if the admin is deleted
 };

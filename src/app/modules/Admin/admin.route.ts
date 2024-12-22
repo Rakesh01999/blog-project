@@ -32,10 +32,10 @@ router.delete('/:id', AdminControllers.deleteAdmin);
 
 // Admin functionality: block a user
 // router.patch('/admin/users/:userId/block', AdminControllers.blockUser);
-router.patch('/users/:userId/block', AdminControllers.blockUser);
+router.patch('/users/:userId/block', auth(USER_ROLE.admin), AdminControllers.blockUser);
 
 // Admin functionality: delete any blog
 // router.delete('/admin/blogs/:id', AdminControllers.deleteBlog);
-router.delete('/blogs/:id', AdminControllers.deleteBlog);
+router.delete('/blogs/:id', auth(USER_ROLE.admin), AdminControllers.deleteBlog);
 
 export const AdminRoutes = router;

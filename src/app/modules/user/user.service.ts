@@ -1,10 +1,11 @@
-import { User } from './user.interface'; // Import the user interface
+// import { User } from './user.interface'; // Import the user interface
+import { TUser } from './user.interface'; // Import the user interface
 import { UserModel } from './user.model';
 import mongoose from 'mongoose';
 import AppError from '../../error/AppError';
 
 // Create a new user in the database
-const createUserInDB = async (user: User): Promise<User> => {
+const createUserInDB = async (user: TUser): Promise<TUser> => {
   const result = await UserModel.create(user); // Create user using the UserModel
   return result;
 };
@@ -12,13 +13,13 @@ const createUserInDB = async (user: User): Promise<User> => {
 // Retrieve all users from the database with optional query filtering
 const getAllUsersFromDB = async (
   query: Record<string, unknown> = {},
-): Promise<User[]> => {
+): Promise<TUser[]> => {
   const result = await UserModel.find(query); // Find users with optional filters
   return result;
 };
 
 // Retrieve a single user by ID from the database
-const getSingleUserFromDB = async (id: string): Promise<User | null> => {
+const getSingleUserFromDB = async (id: string): Promise<TUser | null> => {
   const result = await UserModel.findById(id); // Find user by ID
   if (!result) {
     throw new AppError(404, 'User not found'); // Handle user not found
@@ -29,8 +30,8 @@ const getSingleUserFromDB = async (id: string): Promise<User | null> => {
 // Update a user in the database by ID
 const updateUserInDB = async (
   id: string,
-  payload: Partial<User>,
-): Promise<User | null> => {
+  payload: Partial<TUser>,
+): Promise<TUser | null> => {
   const result = await UserModel.findByIdAndUpdate(id, payload, {
     new: true, // Return the updated document
     runValidators: true, // Run schema validators
@@ -42,7 +43,7 @@ const updateUserInDB = async (
 };
 
 // Soft delete a user by marking them as deleted
-const deleteUserFromDB = async (id: string): Promise<User | null> => {
+const deleteUserFromDB = async (id: string): Promise<TUser | null> => {
   const session = await mongoose.startSession();
   try {
     session.startTransaction();

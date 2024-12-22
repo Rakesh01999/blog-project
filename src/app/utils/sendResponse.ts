@@ -1,3 +1,22 @@
+// import { Response } from 'express';
+// type TResponse<T> = {
+//   statusCode: number;
+//   success: boolean;
+//   message?: string;
+//   data: T;
+// };
+// const sendResponse = <T>(res: Response, data: TResponse<T>) => {
+//   res.status(data?.statusCode).json({
+//     success: data.success,
+//     message: data.message,
+//     data: data.data,
+//   });
+// };
+// export default sendResponse;
+
+
+
+
 import { Response } from 'express';
 
 type TResponse<T> = {
@@ -5,6 +24,11 @@ type TResponse<T> = {
   success: boolean;
   message?: string;
   data: T;
+  meta?: {
+    totalBlogs: number;
+    currentPage: number;
+    limit: number;
+  };
 };
 
 const sendResponse = <T>(res: Response, data: TResponse<T>) => {
@@ -12,6 +36,7 @@ const sendResponse = <T>(res: Response, data: TResponse<T>) => {
     success: data.success,
     message: data.message,
     data: data.data,
+    meta: data.meta, // Include meta if it exists
   });
 };
 

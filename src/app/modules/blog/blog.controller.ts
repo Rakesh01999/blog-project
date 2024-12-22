@@ -70,29 +70,53 @@ const getSingleBlog = catchAsync(async (req, res) => {
   });
 });
 
-// Controller to get all blogs (Public API with search, filter, and sort)
+
+// const getAllBlogs = catchAsync(async (req, res) => {
+//   const query = req.query; // Query parameters for search, sort, and filter
+//   const result = await BlogService.getAllBlogs(query);
+
+//   sendResponse(res, {
+//     statusCode: httpStatus.OK,
+//     success: true,
+//     message: 'Blogs retrieved successfully.',
+//     data: result,
+//   });
+// });
+
+//  ---------- mod ---------------
+
 const getAllBlogs = catchAsync(async (req, res) => {
   const query = req.query; // Query parameters for search, sort, and filter
+
   const result = await BlogService.getAllBlogs(query);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Blogs retrieved successfully.',
-    data: result,
+    data: result.blogs, // Return the blogs in the response
+    meta: {
+      totalBlogs: result.totalBlogs, // Total number of blogs
+      currentPage: Number(query.page) || 1,
+      limit: Number(query.limit) || 10,
+    },
   });
 });
 
-// Controller to update a blog (User-specific)
+
+//  ---------- mod ^ ---------------
+
+
 const updateBlog = catchAsync(async (req, res) => {
   const { id } = req.params; // Blog ID
   // const userId = req.user._id; // User ID from authentication middleware
   const updates = req.body; // Blog updates
   const userId = req.user.id; // Get the logged-in user's ID from req.user
-  // console.log('userId :', userId);
+  console.log('userId :', userId);
 
   // const result = await BlogService.updateBlog(id, userId, updates);
-  const result = await BlogService.updateBlog(id, updates);
+  // const result = await BlogService.updateBlog(id, updates);
+  const result = await BlogService.updateBlog(id,userId, updates);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -105,10 +129,11 @@ const updateBlog = catchAsync(async (req, res) => {
 // Controller to delete a blog (User-specific)
 const deleteBlog = catchAsync(async (req, res) => {
   const { id } = req.params; // Blog ID
-  // const userId = req.user._id; // User ID from authentication middleware
+  const userId = req.user.id; // User ID from authentication middleware
 
-  // const result = await BlogService.deleteBlog(id, userId);
-  const result = await BlogService.deleteBlog(id);
+  console.log("userId",userId);
+  // const result = await BlogService.deleteBlog(id);
+  const result = await BlogService.deleteBlog(id, userId);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,

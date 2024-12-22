@@ -30,10 +30,17 @@ const createAdmin = async (
  * Retrieve all admins.
  * @returns - List of all admin documents.
  */
-const getAllAdminsFromDB = async () => {
-  const admins = await Admin.find({ isDeleted: false });
+// const getAllAdminsFromDB = async () => {
+//   const admins = await Admin.find({ isDeleted: false });
+//   return admins;
+// };
+
+const getAllAdminsFromDB = async (filters?: any) => {
+  const query = { isDeleted: false, ...filters }; // Add filters to the query
+  const admins = await Admin.find(query);
   return admins;
 };
+
 
 /**
  * Retrieve a single admin by ID.

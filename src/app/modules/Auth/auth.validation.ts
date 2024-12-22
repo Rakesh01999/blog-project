@@ -7,6 +7,15 @@ const loginValidationSchema = z.object({
   }),
 });
 
+const registerValidationSchema = z.object({
+  body: z.object({
+    name: z.string().min(1, 'Name is required'),
+    email: z.string().email('Invalid email address'),
+    password: z.string().min(6, 'Password must be at least 6 characters long'),
+    
+  }),
+});
+
 const changePasswordValidationSchema = z.object({
   body: z.object({
     oldPassword: z.string({
@@ -25,6 +34,7 @@ const refreshTokenValidationSchema = z.object({
 });
 
 export const AuthValidation = {
+  registerValidationSchema,
   loginValidationSchema,
   changePasswordValidationSchema,
   refreshTokenValidationSchema,

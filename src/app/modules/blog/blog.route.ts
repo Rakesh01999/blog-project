@@ -16,7 +16,7 @@ const router = express.Router();
 // router.post('/', BlogControllers.createBlog); // Create a blog
 // router.post('/create-blog', BlogControllers.createBlog); // Create a blog
 router.post(
-  '/create-blog',
+  '/',
   auth(USER_ROLE.user),
   validateRequest(createBlogValidationSchema),
   BlogControllers.createBlog,
